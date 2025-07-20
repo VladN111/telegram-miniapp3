@@ -1,67 +1,110 @@
-</div>
-            <div class="stat-item">
-                <span>0</span>
-                <span class="stat-value">Слетело</span>
-            </div>
-            <div class="stat-item">
-                <span>100</span>
-                <span class="stat-value">Рейтинг</span>
-            </div>
-            
-            <h3>10m - $4.00</h3>
-            <div class="stat-item">
-                <span>0</span>
-                <span class="stat-value">Отстояло</span>
-            </div>
-            <div class="stat-item">
-                <span>$0</span>
-                <span class="stat-value">К выплате</span>
-            </div>
-            
-            <button onclick="updateStats()">Обновить статистику</button>
-            <div class="time-update">Последнее обновление: 13:30:58</div>
-        </div>
-        
-        <div class="menu">
-            <div class="menu-item" onclick="showView('balance')">Баланс</div>
-            <div class="menu-item" onclick="showView('tariffs')">Тарифы</div>
-            <div class="menu-item" onclick="showView('stats')">Статистика</div>
-            <div class="menu-item">Рефералы</div>
-            <div class="menu-item">Премиум</div>
-        </div>
-    </div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Сдача WhatsApp</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #121212;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.container {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+.container h1 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.tariff {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tariff-info {
+  text-align: left;
+}
+.tariff-info h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.tariff-info p {
+  font-size: 14px;
+  color: #ccc;
+}
+.tariff button {
+  background: #2a9d8f;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+.tariff button:hover {
+  background: #21867a;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Сдача WhatsApp</h1>
+  <p style="margin-bottom: 16px; font-size: 14px; color: #ccc;">Выберите, сколько времени вы готовы сдать свой WhatsApp, и получите оплату.</p>
 
-    <script>
-        // Инициализация Telegram WebApp
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
-        
-        // Показ нужного раздела
-        function showView(view) {
-            document.getElementById('balance-view').style.display = 'none';
-            document.getElementById('tariffs-view').style.display = 'none';
-            document.getElementById('stats-view').style.display = 'none';
-            
-            document.getElementById(view + '-view').style.display = 'block';
-        }
-        
-        // Обновление баланса
-        function updateBalance() {
-            Telegram.WebApp.sendData(JSON.stringify({action: 'update_balance'}));
-        }
-        
-        // Покупка тарифа
-        function buyTariff(minutes) {
-            Telegram.WebApp.sendData(JSON.stringify({
-                action: 'buy_tariff',
-                minutes: minutes
-            }));
-        }
-        
-        // Обновление статистики
-        function updateStats() {
-            Telegram.WebApp.sendData(JSON.stringify({action: 'update_stats'}));
-        }
-    </script>
+  <div class="tariff">
+    <div class="tariff-info">
+      <h3>10 минут</h3>
+      <p>Вы получите $0.10</p>
+    </div>
+    <button onclick="submitTariff(10, 0.10)">Сдать</button>
+  </div>
+  <div class="tariff">
+    <div class="tariff-info">
+      <h3>60 минут</h3>
+      <p>Вы получите $1.00</p>
+    </div>
+    <button onclick="submitTariff(60, 1.00)">Сдать</button>
+  </div>
+  <div class="tariff">
+    <div class="tariff-info">
+      <h3>120 минут</h3>
+      <p>Вы получите $1.50</p>
+    </div>
+    <button onclick="submitTariff(120, 1.50)">Сдать</button>
+  </div>
+</div>
+
+<script>
+Telegram.WebApp.ready();
+Telegram.WebApp.expand();
+
+function submitTariff(minutes, payment) {
+  const data = {
+    action: 'submit_whatsapp_time',
+    minutes: minutes,
+    payment: payment
+  };
+  Telegram.WebApp.sendData(JSON.stringify(data));
+}
+</script>
 </body>
 </html>
