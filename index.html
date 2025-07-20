@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>▫️ StopArend - Аренда WhatsApp</title>
+    <title>🚀 StopArend - Аренда WhatsApp</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #000000; /* Черный фон */
-            --card-color: #121212; /* Темные карточки */
-            --text-primary: #ffffff; /* Белый текст */
-            --text-secondary: #cccccc; /* Светло-серый текст */
-            --accent-color: #808080; /* Серый акцент */
-            --divider-color: #333333; /* Границы */
-            --balance-highlight: rgba(50, 50, 50, 0.5); /* Серый фон баланса */
-            --blur-bg: rgba(30, 30, 30, 0.9); /* Размытый фон меню */
-            --card-border: 1px solid #444444; /* Серый контур */
+            --bg-color: #000000;
+            --card-color: #121212;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --accent-color: #808080;
+            --divider-color: #333333;
+            --balance-highlight: rgba(50, 50, 50, 0.5);
+            --blur-bg: rgba(30, 30, 30, 0.9);
+            --card-border: 1px solid #444444;
         }
         
         body {
@@ -52,7 +52,7 @@
             padding: 20px;
             margin-bottom: 16px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            border: var(--card-border); /* Серый контур */
+            border: var(--card-border);
         }
         
         .section-title {
@@ -240,7 +240,7 @@
             accent-color: var(--accent-color);
         }
         
-        .symbol {
+        .emoji {
             font-size: 1.2em;
             margin-right: 6px;
             vertical-align: middle;
@@ -253,11 +253,11 @@
         <div id="balance-view">
             <div class="header">
                 <span class="material-icons icon">whatsapp</span>
-                <span class="symbol">▫️</span> StopArend
+                <span class="emoji">🚀</span> StopArend
             </div>
             
             <div class="card">
-                <div class="section-title"><span class="symbol">▫️</span> Мой баланс</div>
+                <div class="section-title"><span class="emoji">💰</span> Мой баланс</div>
                 <div class="section-subtitle">Управление средствами</div>
                 
                 <div class="balance-container">
@@ -267,23 +267,23 @@
                 
                 <div class="checkbox">
                     <input type="checkbox" id="autoUpdate" checked>
-                    <label for="autoUpdate"><span class="symbol">▫️</span> Обновляется автоматически</label>
+                    <label for="autoUpdate"><span class="emoji">🔄</span> Обновляется автоматически</label>
                 </div>
                 
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-value">1</div>
-                        <div class="stat-label"><span class="symbol">▫️</span> В очереди</div>
+                        <div class="stat-label"><span class="emoji">⏳</span> В очереди</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value">0</div>
-                        <div class="stat-label"><span class="symbol">▫️</span> В холде</div>
+                        <div class="stat-label"><span class="emoji">❄️</span> В холде</div>
                     </div>
                 </div>
                 
                 <button class="btn" onclick="updateBalance()">
                     <span class="material-icons icon">refresh</span>
-                    <span class="symbol">▫️</span> Обновить баланс
+                    <span class="emoji">🔄</span> Обновить баланс
                 </button>
             </div>
         </div>
@@ -292,18 +292,18 @@
         <div id="price-view" class="hidden">
             <div class="header">
                 <span class="material-icons icon">whatsapp</span>
-                <span class="symbol">▫️</span> StopArend
+                <span class="emoji">🚀</span> StopArend
             </div>
             
             <div class="card">
-                <div class="section-title"><span class="symbol">▫️</span> Аренда WhatsApp</div>
+                <div class="section-title"><span class="emoji">⏱️</span> Аренда WhatsApp</div>
                 <div class="section-subtitle">Выберите тариф аренды</div>
                 
                 <div class="tariff-grid">
                     <div class="tariff-card" onclick="selectTariff(10)">
                         <div class="tariff-name">
                             <span class="material-icons icon">timer_10</span>
-                            <span class="symbol">▫️</span> 10 минут аренды
+                            <span class="emoji">⏱️</span> 10 минут аренды
                         </div>
                         <div class="tariff-price">$4.00</div>
                     </div>
@@ -311,7 +311,7 @@
                     <div class="tariff-card" onclick="selectTariff(60)">
                         <div class="tariff-name">
                             <span class="material-icons icon">hourglass_bottom</span>
-                            <span class="symbol">▫️</span> 1 час аренды
+                            <span class="emoji">⏳</span> 1 час аренды
                         </div>
                         <div class="tariff-price">$9.00</div>
                     </div>
@@ -319,7 +319,7 @@
                     <div class="tariff-card" onclick="selectTariff(120)">
                         <div class="tariff-name">
                             <span class="material-icons icon">hourglass_full</span>
-                            <span class="symbol">▫️</span> 2 часа аренды
+                            <span class="emoji">⌛</span> 2 часа аренды
                         </div>
                         <div class="tariff-price">$15.00</div>
                     </div>
@@ -327,7 +327,7 @@
                 
                 <button class="btn" id="buy-btn" onclick="buyTariff()" disabled>
                     <span class="material-icons icon">shopping_cart</span>
-                    <span class="symbol">▫️</span> Выбрать тариф
+                    <span class="emoji">🛒</span> Выбрать тариф
                 </button>
             </div>
         </div>
@@ -336,42 +336,42 @@
         <div id="stats-view" class="hidden">
             <div class="header">
                 <span class="material-icons icon">whatsapp</span>
-                <span class="symbol">▫️</span> StopArend
+                <span class="emoji">🚀</span> StopArend
             </div>
             
             <div class="card">
-                <div class="section-title"><span class="symbol">▫️</span> Статистика аренды</div>
+                <div class="section-title"><span class="emoji">📊</span> Статистика аренды</div>
                 <div class="section-subtitle">Аналитика вашей работы</div>
                 
-                <div class="section-title"><span class="symbol">▫️</span> tiered - $8.00</div>
+                <div class="section-title"><span class="emoji">🏷️</span> tiered - $8.00</div>
                 
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-value">0</div>
-                        <div class="stat-label"><span class="symbol">▫️</span> В холде</div>
+                        <div class="stat-label"><span class="emoji">❄️</span> В холде</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value">0</div>
-                        <div class="stat-label"><span class="symbol">▫️</span> Отстояло</div>
+                        <div class="stat-label"><span class="emoji">✅</span> Отстояло</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value">0</div>
-                        <div class="stat-label"><span class="symbol">▫️</span> Слетело</div>
+                        <div class="stat-label"><span class="emoji">❌</span> Слетело</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value">$0</div>
-                        <div class="stat-label"><span class="symbol">▫️</span> К выплате</div>
+                        <div class="stat-label"><span class="emoji">💰</span> К выплате</div>
                     </div>
                 </div>
                 
                 <div class="stat-card" style="grid-column: span 2;">
                     <div class="stat-value">100</div>
-                    <div class="stat-label"><span class="symbol">▫️</span> Рейтинг надежности</div>
+                    <div class="stat-label"><span class="emoji">⭐</span> Рейтинг надежности</div>
                 </div>
                 
                 <button class="btn" onclick="updateStats()">
                     <span class="material-icons icon">update</span>
-                    <span class="symbol">▫️</span> Обновить статистику
+                    <span class="emoji">🔄</span> Обновить статистику
                 </button>
             </div>
         </div>
@@ -380,36 +380,73 @@
         <div id="refs-view" class="hidden">
             <div class="header">
                 <span class="material-icons icon">whatsapp</span>
-                <span class="symbol">▫️</span> StopArend
+                <span class="emoji">🚀</span> StopArend
             </div>
             
             <div class="card">
-                <div class="section-title"><span class="symbol">▫️</span> Реферальная программа</div>
+                <div class="section-title"><span class="emoji">👥</span> Реферальная программа</div>
                 <div class="section-subtitle">Приглашайте друзей и получайте бонусы</div>
                 
-                <div class="section-title"><span class="symbol">▫️</span> Как это работает</div>
+                <div class="section-title"><span class="emoji">ℹ️</span> Как это работает</div>
                 
                 <div class="stat-card" style="text-align: left; margin-bottom: 16px;">
-                    <div class="stat-value"><span class="symbol">▫️</span> 10%</div>
+                    <div class="stat-value"><span class="emoji">🤑</span> 10%</div>
                     <div class="stat-label">от суммы каждого заказа вашего реферала</div>
                 </div>
                 
                 <div class="stat-card" style="text-align: left;">
-                    <div class="stat-value"><span class="symbol">▫️</span> $10+</div>
+                    <div class="stat-value"><span class="emoji">💵</span> $10+</div>
                     <div class="stat-label">минимальная сумма для вывода</div>
                 </div>
                 
-                <div class="section-title" style="margin-top: 20px;"><span class="symbol">▫️</span> Ваша реферальная ссылка</div>
+                <div class="section-title" style="margin-top: 20px;"><span class="emoji">🔗</span> Ваша реферальная ссылка</div>
                 <div class="referral-link" id="ref-link">Загрузка...</div>
                 
                 <button class="btn" onclick="copyReferralLink()">
                     <span class="material-icons icon">content_copy</span>
-                    <span class="symbol">▫️</span> Копировать ссылку
+                    <span class="emoji">📋</span> Копировать ссылку
                 </button>
                 
-                <button class="btn" style="margin-top: 12px; background-color: var(--card-color);" onclick="shareReferral()">
+                <button class="btn" style="margin-top: 12px; background-color: var(--card-color); border: 1px solid var(--accent-color);" onclick="shareReferral()">
                     <span class="material-icons icon">share</span>
-                    <span class="symbol">▫️</span> Поделиться
+                    <span class="emoji">↗️</span> Поделиться
+                </button>
+            </div>
+        </div>
+        
+        <!-- Номера -->
+        <div id="numbers-view" class="hidden">
+            <div class="header">
+                <span class="material-icons icon">whatsapp</span>
+                <span class="emoji">🚀</span> StopArend
+            </div>
+            
+            <div class="card">
+                <div class="section-title"><span class="emoji">📱</span> Мои номера</div>
+                <div class="section-subtitle">Управление вашими номерами</div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card" onclick="showNumberStatus('hold')">
+                        <div class="stat-value">2</div>
+                        <div class="stat-label"><span class="emoji">❄️</span> В холде</div>
+                    </div>
+                    <div class="stat-card" onclick="showNumberStatus('active')">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label"><span class="emoji">✅</span> Отстояло</div>
+                    </div>
+                    <div class="stat-card" onclick="showNumberStatus('failed')">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label"><span class="emoji">❌</span> Слетело</div>
+                    </div>
+                    <div class="stat-card" onclick="showNumberStatus('queue')">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label"><span class="emoji">⏳</span> В очереди</div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="addNumber()">
+                    <span class="material-icons icon">add</span>
+                    <span class="emoji">➕</span> Сдать номер
                 </button>
             </div>
         </div>
@@ -419,19 +456,23 @@
     <div class="nav-menu">
         <div class="nav-item active" onclick="showView('balance')">
             <span class="material-icons icon">account_balance_wallet</span>
-            <span class="symbol">▫️</span> Баланс
+            <span class="emoji">💰</span> Баланс
         </div>
         <div class="nav-item" onclick="showView('price')">
             <span class="material-icons icon">sell</span>
-            <span class="symbol">▫️</span> Аренда
+            <span class="emoji">⏱️</span> Аренда
+        </div>
+        <div class="nav-item" onclick="showView('numbers')">
+            <span class="material-icons icon">smartphone</span>
+            <span class="emoji">📱</span> Номера
         </div>
         <div class="nav-item" onclick="showView('stats')">
             <span class="material-icons icon">analytics</span>
-            <span class="symbol">▫️</span> Статистика
+            <span class="emoji">📊</span> Статистика
         </div>
         <div class="nav-item" onclick="showView('refs')">
             <span class="material-icons icon">group</span>
-            <span class="symbol">▫️</span> Рефералы
+            <span class="emoji">👥</span> Рефералы
         </div>
     </div>
 
@@ -465,6 +506,7 @@
             document.getElementById('price-view').classList.add('hidden');
             document.getElementById('stats-view').classList.add('hidden');
             document.getElementById('refs-view').classList.add('hidden');
+            document.getElementById('numbers-view').classList.add('hidden');
             
             document.getElementById(view + '-view').classList.remove('hidden');
             
@@ -542,6 +584,32 @@
                 });
             } else {
                 copyReferralLink();
+            }
+        }
+        
+        // Добавление номера
+        function addNumber() {
+            if (typeof Telegram !== 'undefined') {
+                Telegram.WebApp.sendData(JSON.stringify({action: 'add_number'}));
+            } else {
+                const number = prompt("Введите номер телефона (10 цифр без +7):");
+                if (number && number.length === 10 && !isNaN(number)) {
+                    alert(`Номер ${number} добавлен!`);
+                } else {
+                    alert("Некорректный номер! Введите 10 цифр без +7");
+                }
+            }
+        }
+        
+        // Показать статус номера
+        function showNumberStatus(status) {
+            if (typeof Telegram !== 'undefined') {
+                Telegram.WebApp.sendData(JSON.stringify({
+                    action: 'show_numbers',
+                    status: status
+                }));
+            } else {
+                alert(`Показаны номера со статусом: ${status}`);
             }
         }
     </script>
