@@ -1,201 +1,67 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Мини Апп</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #121212;
-  color: #fff;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-.header {
-  text-align: center;
-  padding: 16px;
-  font-size: 18px;
-  font-weight: 600;
-}
-.content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  backdrop-filter: blur(10px);
-}
-.card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-}
-.card img {
-  width: 48px;
-  height: 48px;
-  margin-right: 12px;
-  border-radius: 8px;
-}
-.card-details {
-  flex: 1;
-}
-.card-details h3 {
-  font-size: 16px;
-  margin-bottom: 4px;
-  font-weight: 500;
-}
-.card-details p {
-  font-size: 14px;
-  color: #ccc;
-}
-.card button {
-  background: #ffffff10;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.2s ease;
-}
-.card button:hover {
-  background: #ffffff20;
-}
-.bottom-nav {
-  display: flex;
-  justify-content: space-around;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  padding: 8px 0;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-.bottom-nav button {
-  background: none;
-  border: none;
-  color: #ccc;
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-.bottom-nav button.active {
-  color: #fff;
-}
-.bottom-nav img {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 4px;
-  filter: invert(1);
-}
-</style>
-</head>
-<body>
-<div class="header">Управление балансом и тарифами</div>
-<div id="content" class="content"></div>
-<div class="bottom-nav">
-  <button id="balanceBtn" class="active" onclick="showBalance()">
-    <img src="https://img.icons8.com/ios-filled/50/ffffff/wallet--v1.png" alt="Баланс">
-    Баланс
-  </button>
-  <button id="tariffsBtn" onclick="showTariffs()">
-    <img src="https://img.icons8.com/ios-filled/50/ffffff/purchase-order.png" alt="Тарифы">
-    Тарифы
-  </button>
 </div>
-<script>
-Telegram.WebApp.ready();
-Telegram.WebApp.expand();
+            <div class="stat-item">
+                <span>0</span>
+                <span class="stat-value">Слетело</span>
+            </div>
+            <div class="stat-item">
+                <span>100</span>
+                <span class="stat-value">Рейтинг</span>
+            </div>
+            
+            <h3>10m - $4.00</h3>
+            <div class="stat-item">
+                <span>0</span>
+                <span class="stat-value">Отстояло</span>
+            </div>
+            <div class="stat-item">
+                <span>$0</span>
+                <span class="stat-value">К выплате</span>
+            </div>
+            
+            <button onclick="updateStats()">Обновить статистику</button>
+            <div class="time-update">Последнее обновление: 13:30:58</div>
+        </div>
+        
+        <div class="menu">
+            <div class="menu-item" onclick="showView('balance')">Баланс</div>
+            <div class="menu-item" onclick="showView('tariffs')">Тарифы</div>
+            <div class="menu-item" onclick="showView('stats')">Статистика</div>
+            <div class="menu-item">Рефералы</div>
+            <div class="menu-item">Премиум</div>
+        </div>
+    </div>
 
-function setActive(buttonId) {
-  document.getElementById('balanceBtn').classList.remove('active');
-  document.getElementById('tariffsBtn').classList.remove('active');
-  document.getElementById(buttonId).classList.add('active');
-}
-
-function showBalance() {
-  setActive('balanceBtn');
-  document.getElementById('content').innerHTML = `
-    <div class="card">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/clock--v1.png" alt="10 мин">
-      <div class="card-details">
-        <h3>10 минут</h3>
-        <p>$0.00</p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/clock--v1.png" alt="60 мин">
-      <div class="card-details">
-        <h3>60 минут</h3>
-        <p>$0.00</p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/clock--v1.png" alt="120 мин">
-      <div class="card-details">
-        <h3>120 минут</h3>
-        <p>$0.00</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-details">
-        <h3>Общий баланс</h3>
-        <p>$0.00</p>
-      </div>
-      <button onclick="Telegram.WebApp.sendData('update_balance')">Обновить</button>
-    </div>
-  `;
-}
-
-function showTariffs() {
-  setActive('tariffsBtn');
-  document.getElementById('content').innerHTML = `
-    <div class="card">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/clock--v1.png" alt="10 мин">
-      <div class="card-details">
-        <h3>10 минут</h3>
-        <p>$0.10</p>
-      </div>
-      <button onclick="buyTariff(10)">Купить</button>
-    </div>
-    <div class="card">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/clock--v1.png" alt="60 мин">
-      <div class="card-details">
-        <h3>60 минут</h3>
-        <p>$10.00</p>
-      </div>
-      <button onclick="buyTariff(60)">Купить</button>
-    </div>
-    <div class="card">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/clock--v1.png" alt="120 мин">
-      <div class="card-details">
-        <h3>120 минут</h3>
-        <p>$12.00</p>
-      </div>
-      <button onclick="buyTariff(120)">Купить</button>
-    </div>
-  `;
-}
-
-function buyTariff(minutes) {
-  Telegram.WebApp.sendData(JSON.stringify({
-    action: 'buy_tariff',
-    minutes: minutes
-  }));
-}
-
-// Показываем баланс при старте
-showBalance();
-</script>
+    <script>
+        // Инициализация Telegram WebApp
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+        
+        // Показ нужного раздела
+        function showView(view) {
+            document.getElementById('balance-view').style.display = 'none';
+            document.getElementById('tariffs-view').style.display = 'none';
+            document.getElementById('stats-view').style.display = 'none';
+            
+            document.getElementById(view + '-view').style.display = 'block';
+        }
+        
+        // Обновление баланса
+        function updateBalance() {
+            Telegram.WebApp.sendData(JSON.stringify({action: 'update_balance'}));
+        }
+        
+        // Покупка тарифа
+        function buyTariff(minutes) {
+            Telegram.WebApp.sendData(JSON.stringify({
+                action: 'buy_tariff',
+                minutes: minutes
+            }));
+        }
+        
+        // Обновление статистики
+        function updateStats() {
+            Telegram.WebApp.sendData(JSON.stringify({action: 'update_stats'}));
+        }
+    </script>
 </body>
 </html>
-
-
