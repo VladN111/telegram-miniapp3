@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GhostArend</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StopArend - Сдача WhatsApp номеров</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <style>
         :root {
             --bg-color: #121212;
@@ -15,7 +15,7 @@
             --divider-color: #2d2d2d;
             --blur-bg: rgba(30, 30, 30, 0.85);
         }
-        
+
         body {
             font-family: 'Roboto', sans-serif;
             background-color: var(--bg-color);
@@ -24,14 +24,14 @@
             padding: 0;
             height: 100vh;
         }
-        
+
         .app-container {
             max-width: 100%;
             padding: 16px;
             padding-bottom: 72px;
             box-sizing: border-box;
         }
-        
+
         .header {
             font-size: 22px;
             font-weight: 500;
@@ -39,12 +39,12 @@
             display: flex;
             align-items: center;
         }
-        
+
         .header .icon {
             margin-right: 12px;
             color: var(--accent-color);
         }
-        
+
         .card {
             background-color: var(--card-color);
             border-radius: 16px;
@@ -53,61 +53,64 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
-        
+
         .section-title {
             font-size: 18px;
             font-weight: 500;
             margin-bottom: 8px;
         }
-        
+
         .section-subtitle {
             font-size: 14px;
             color: var(--text-secondary);
             margin-bottom: 16px;
         }
-        
+
         .tariff-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 14px 0;
             border-bottom: 1px solid var(--divider-color);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.2s;
         }
-        
+
+        .tariff-item.selected {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
         .tariff-item:last-child {
             border-bottom: none;
         }
-        
+
         .tariff-name {
             font-size: 16px;
             display: flex;
             align-items: center;
         }
-        
+
         .tariff-name .icon {
             margin-right: 10px;
             font-size: 20px;
-            color: var(--accent-color);
+            color: inherit;
         }
-        
+
         .tariff-price {
             font-size: 16px;
             font-weight: 500;
         }
-        
+
         .total-balance {
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid var(--divider-color);
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--accent-color);
+            text-align: center;
         }
-        
-        .total-balance input {
-            margin-right: 12px;
-            accent-color: var(--accent-color);
-        }
-        
+
         .btn {
             background-color: var(--accent-color);
             color: white;
@@ -124,23 +127,23 @@
             justify-content: center;
             transition: all 0.2s;
         }
-        
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
+
+        .btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
         }
-        
+
         .btn .icon {
             margin-right: 8px;
         }
-        
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             margin-bottom: 20px;
         }
-        
+
         .stat-card {
             background-color: var(--bg-color);
             border-radius: 12px;
@@ -148,25 +151,25 @@
             text-align: center;
             border: 1px solid var(--divider-color);
         }
-        
+
         .stat-value {
             font-size: 20px;
             font-weight: 500;
             margin-bottom: 4px;
         }
-        
+
         .stat-label {
             font-size: 13px;
             color: var(--text-secondary);
         }
-        
+
         .update-time {
             font-size: 13px;
             color: var(--text-secondary);
             text-align: center;
             margin-top: 20px;
         }
-        
+
         .nav-menu {
             position: fixed;
             bottom: 0;
@@ -180,7 +183,7 @@
             backdrop-filter: blur(20px);
             z-index: 100;
         }
-        
+
         .nav-item {
             display: flex;
             flex-direction: column;
@@ -192,19 +195,43 @@
             border-radius: 12px;
             transition: all 0.2s;
         }
-        
+
         .nav-item.active {
             color: var(--accent-color);
             background-color: rgba(58, 123, 213, 0.15);
         }
-        
+
         .nav-item .icon {
             font-size: 24px;
             margin-bottom: 4px;
         }
-        
+
         .hidden {
             display: none;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--divider-color);
+            background-color: var(--card-color);
+            color: var(--text-primary);
+            font-size: 16px;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+
+        .number-list {
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: var(--card-color);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border: 1px solid var(--divider-color);
+            margin-top: 8px;
         }
     </style>
 </head>
@@ -214,229 +241,268 @@
         <div id="balance-view">
             <div class="header">
                 <span class="material-icons icon">account_balance_wallet</span>
-                GhostArend
+                StopArend
             </div>
-            
+
             <div class="card">
-                <div class="section-title">Управление баллами</div>
-                <div class="section-subtitle">Просмотр средств по тарифам</div>
-                
-                <div class="tariff-item">
-                    <div class="tariff-name">
-                        <span class="material-icons icon">hourglass_empty</span>
-                        10 минут
-                    </div>
-                    <div class="tariff-price">$0.00</div>
-                </div>
-                
-                <div class="tariff-item">
-                    <div class="tariff-name">
-                        <span class="material-icons icon">hourglass_bottom</span>
-                        60 минут
-                    </div>
-                    <div class="tariff-price">$0.00</div>
-                </div>
-                
-                <div class="tariff-item">
-                    <div class="tariff-name">
-                        <span class="material-icons icon">hourglass_full</span>
-                        120 минут
-                    </div>
-                    <div class="tariff-price">$0.00</div>
-                </div>
-                
-                <div class="total-balance">
-                    <input type="checkbox" id="totalBalance">
-                    <label for="totalBalance">Общий баланс: $0.00</label>
-                </div>
-                
-                <button class="btn" onclick="updateBalance()">
-                    <span class="material-icons icon">refresh</span>
-                    Обновить
-                </button>
+                <div class="section-title">Ваш баланс</div>
+                <div class="total-balance" id="balanceDisplay">$0.00</div>
             </div>
         </div>
-        
+
         <!-- Тарифы -->
         <div id="tariffs-view" class="hidden">
             <div class="header">
                 <span class="material-icons icon">paid</span>
-                GhostArend
+                StopArend
             </div>
-            
+
             <div class="card">
-                <div class="section-title">Выбор тарифа</div>
-                <div class="section-subtitle">Настройка планов работы</div>
-                
-                <div class="tariff-item">
-                    <div class="tariff-name">
-                        <span class="material-icons icon">timer_10</span>
-                        10 минут
+                <div class="section-title">Выберите тариф</div>
+                <div class="section-subtitle">Настройка оплаты за сдачу номера</div>
+
+                <div id="tariffsList">
+                    <div class="tariff-item" data-minutes="10">
+                        <div class="tariff-name">
+                            <span class="material-icons icon">timer_10</span>
+                            10 минут
+                        </div>
+                        <div class="tariff-price">$0.10</div>
                     </div>
-                    <div class="tariff-price">$0.10</div>
-                </div>
-                
-                <div class="tariff-item">
-                    <div class="tariff-name">
-                        <span class="material-icons icon">timer</span>
-                        60 минут
+
+                    <div class="tariff-item" data-minutes="60">
+                        <div class="tariff-name">
+                            <span class="material-icons icon">timer</span>
+                            60 минут
+                        </div>
+                        <div class="tariff-price">$10.00</div>
                     </div>
-                    <div class="tariff-price">$10.00</div>
-                </div>
-                
-                <div class="tariff-item">
-                    <div class="tariff-name">
-                        <span class="material-icons icon">av_timer</span>
-                        120 минут
+
+                    <div class="tariff-item" data-minutes="120">
+                        <div class="tariff-name">
+                            <span class="material-icons icon">av_timer</span>
+                            120 минут
+                        </div>
+                        <div class="tariff-price">$12.00</div>
                     </div>
-                    <div class="tariff-price">$12.00</div>
                 </div>
-                
-                <button class="btn" onclick="buyTariff(60)">
-                    <span class="material-icons icon">shopping_cart</span>
-                    Купить тариф
+
+                <button id="confirmTariffBtn" class="btn" disabled>
+                    <span class="material-icons icon">check_circle</span>
+                    Подтвердить тариф
                 </button>
             </div>
         </div>
-        
+
+        <!-- Отправка номера -->
+        <div id="submit-number-view" class="hidden">
+            <div class="header">
+                <span class="material-icons icon">send</span>
+                StopArend
+            </div>
+
+            <div class="card">
+                <div class="section-title">Сдайте номер WhatsApp</div>
+                <div class="section-subtitle">Введите номер и отправьте</div>
+
+                <input type="text" id="whatsappNumberInput" placeholder="+380xxxxxxxxx" />
+                <button id="sendNumberBtn" class="btn" disabled>
+                    <span class="material-icons icon">send</span>
+                    Отправить номер
+                </button>
+
+                <div class="section-title" style="margin-top: 20px;">История сданных номеров</div>
+                <div id="numberHistory" class="number-list">
+                    Пока нет сданных номеров
+                </div>
+            </div>
+        </div>
+
         <!-- Статистика -->
         <div id="stats-view" class="hidden">
             <div class="header">
                 <span class="material-icons icon">analytics</span>
-                GhostArend
+                StopArend
             </div>
-            
+
             <div class="card">
                 <div class="section-title">Статистика</div>
-                <div class="section-subtitle">Аналитика вашей работы</div>
-                
-                <div class="section-title" style="margin-top: 20px;">Ваша статистика</div>
+                <div class="section-subtitle">Аналитика вашей сдачи</div>
+
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-value">0</div>
+                        <div class="stat-value" id="totalNumbers">0</div>
                         <div class="stat-label">
-                            <span class="material-icons icon" style="font-size: 16px;">pause</span>
-                            В холде
+                            <span class="material-icons icon" style="font-size: 16px;">call_received</span>
+                            Номеров сдано
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value">0</div>
+                        <div class="stat-value" id="totalEarned">$0.00</div>
                         <div class="stat-label">
-                            <span class="material-icons icon" style="font-size: 16px;">warning</span>
-                            Слетело
+                            <span class="material-icons icon" style="font-size: 16px;">attach_money</span>
+                            Заработано
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value">100</div>
+                        <div class="stat-value" id="selectedTariffStat">-</div>
                         <div class="stat-label">
-                            <span class="material-icons icon" style="font-size: 16px;">star</span>
-                            Рейтинг
+                            <span class="material-icons icon" style="font-size: 16px;">timer</span>
+                            Текущий тариф (мин)
                         </div>
                     </div>
                 </div>
-                
-                <div class="section-title" style="margin-top: 20px;">10m - $4.00</div>
-                <div class="tariff-item">
-                    <div class="tariff-name">
-                        <span class="material-icons icon">check_circle</span>
-                        Отстояло
-                    </div>
-                    <div class="tariff-price">0</div>
-                </div>
-                <div class="tariff-item">
-                    <div class="tariff-name">
-                        <span class="material-icons icon">attach_money</span>
-                        К выплате
-                    </div>
-                    <div class="tariff-price">$0</div>
-                </div>
-                
-                <button class="btn" onclick="updateStats()">
+
+                <button class="btn" onclick="refreshStats()">
                     <span class="material-icons icon">update</span>
                     Обновить статистику
                 </button>
-                <div class="update-time">Последнее обновление: 13:30:58</div>
+
+                <div class="update-time" id="updateTime">Последнее обновление: -</div>
             </div>
         </div>
     </div>
-    
+
     <!-- Навигационное меню -->
     <div class="nav-menu">
-        <div class="nav-item active" onclick="showView('balance')">
+        <div class="nav-item active" data-view="balance-view">
             <span class="material-icons icon">account_balance_wallet</span>
             Баланс
         </div>
-        <div class="nav-item" onclick="showView('tariffs')">
+        <div class="nav-item" data-view="tariffs-view">
             <span class="material-icons icon">paid</span>
             Тарифы
         </div>
-        <div class="nav-item" onclick="showView('stats')">
+        <div class="nav-item" data-view="submit-number-view">
+            <span class="material-icons icon">send</span>
+            Сдать номер
+        </div>
+        <div class="nav-item" data-view="stats-view">
             <span class="material-icons icon">analytics</span>
             Статистика
-        </div>
-        <div class="nav-item">
-            <span class="material-icons icon">group</span>
-            Рефералы
-        </div>
-        <div class="nav-item">
-            <span class="material-icons icon">workspace_premium</span>
-            Премиум
         </div>
     </div>
 
     <script>
-        // Инициализация Telegram WebApp
+        const tariffs = {
+            10: 0.10,
+            60: 10.00,
+            120: 12.00
+        };
+
+        let selectedTariff = null;
+        let balance = 0;
+        let submittedNumbers = [];
+
+        // Навигация между видами
+        const navItems = document.querySelectorAll('.nav-item');
+        const views = ['balance-view', 'tariffs-view', 'submit-number-view', 'stats-view'];
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Показ нужного view
+                views.forEach(v => document.getElementById(v).classList.add('hidden'));
+                const view = item.getAttribute('data-view');
+                document.getElementById(view).classList.remove('hidden');
+
+                // Активный пункт меню
+                navItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+
+                if(view === 'stats-view') refreshStats();
+                if(view === 'balance-view') updateBalanceDisplay();
+            });
+        });
+
+        // Выбор тарифа
+        const tariffItems = document.querySelectorAll('#tariffsList .tariff-item');
+        const confirmTariffBtn = document.getElementById('confirmTariffBtn');
+
+        tariffItems.forEach(item => {
+            item.addEventListener('click', () => {
+                tariffItems.forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+                selectedTariff = parseInt(item.getAttribute('data-minutes'));
+                confirmTariffBtn.disabled = false;
+            });
+        });
+
+        confirmTariffBtn.addEventListener('click', () => {
+            if(selectedTariff !== null) {
+                alert(`Вы выбрали тариф ${selectedTariff} минут по цене $${tariffs[selectedTariff].toFixed(2)}.\nТеперь можно сдавать номера.`);
+                // Можно при подтверждении перейти на форму сдачи номера
+                document.querySelector('.nav-item[data-view="submit-number-view"]').click();
+                updateSelectedTariffStat();
+            }
+        });
+
+        // Ввод номера WhatsApp
+        const whatsappInput = document.getElementById('whatsappNumberInput');
+        const sendNumberBtn = document.getElementById('sendNumberBtn');
+        const numberHistory = document.getElementById('numberHistory');
+
+        whatsappInput.addEventListener('input', () => {
+            sendNumberBtn.disabled = whatsappInput.value.trim().length === 0 || selectedTariff === null;
+        });
+
+        sendNumberBtn.addEventListener('click', () => {
+            const number = whatsappInput.value.trim();
+            if(!number) return alert('Введите номер WhatsApp.');
+
+            // Простейшая проверка формата (можно улучшить)
+            const phoneRegex = /^\+?\d{8,15}$/;
+            if(!phoneRegex.test(number)) {
+                return alert('Введите корректный номер в формате +380XXXXXXXXX.');
+            }
+
+            // Добавляем номер в список
+            submittedNumbers.push(number);
+            // Начисляем деньги по тарифу
+            balance += tariffs[selectedTariff];
+
+            // Очистка поля
+            whatsappInput.value = '';
+            sendNumberBtn.disabled = true;
+
+            updateBalanceDisplay();
+            updateNumberHistory();
+            updateSelectedTariffStat();
+            alert(`Номер ${number} принят! На ваш баланс начислено $${tariffs[selectedTariff].toFixed(2)}.`);
+        });
+
+        function updateBalanceDisplay() {
+            document.getElementById('balanceDisplay').textContent = `$${balance.toFixed(2)}`;
+        }
+
+        function updateNumberHistory() {
+            if(submittedNumbers.length === 0) {
+                numberHistory.textContent = 'Пока нет сданных номеров';
+            } else {
+                numberHistory.innerHTML = submittedNumbers.map((num, idx) => `${idx+1}. ${num}`).join('<br>');
+            }
+        }
+
+        function refreshStats() {
+            document.getElementById('totalNumbers').textContent = submittedNumbers.length;
+            document.getElementById('totalEarned').textContent = `$${balance.toFixed(2)}`;
+            updateSelectedTariffStat();
+            document.getElementById('updateTime').textContent = 'Последнее обновление: ' + new Date().toLocaleTimeString();
+        }
+
+        function updateSelectedTariffStat() {
+            document.getElementById('selectedTariffStat').textContent = selectedTariff ? selectedTariff + ' мин' : '-';
+        }
+
+        // Инициализация
+        updateBalanceDisplay();
+        updateNumberHistory();
+        updateSelectedTariffStat();
+
+        // Если хочешь, можно инициализировать Telegram WebApp, как у тебя было:
         if (typeof Telegram !== 'undefined') {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
             Telegram.WebApp.setBackgroundColor('#121212');
-        }
-        
-        // Показ нужного раздела
-        function showView(view) {
-            document.getElementById('balance-view').classList.add('hidden');
-            document.getElementById('tariffs-view').classList.add('hidden');
-            document.getElementById('stats-view').classList.add('hidden');
-            
-            document.getElementById(view + '-view').classList.remove('hidden');
-            
-            // Обновление активного пункта меню
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
-        }
-        
-        // Обновление баланса
-        function updateBalance() {
-            if (typeof Telegram !== 'undefined') {
-                Telegram.WebApp.sendData(JSON.stringify({action: 'update_balance'}));
-            } else {
-                alert('Баланс обновлен!');
-            }
-        }
-        
-        // Обновление статистики
-        function updateStats() {
-            if (typeof Telegram !== 'undefined') {
-                Telegram.WebApp.sendData(JSON.stringify({action: 'update_stats'}));
-            } else {
-                alert('Статистика обновлена!');
-                document.querySelector('.update-time').textContent = 
-                    'Последнее обновление: ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-            }
-        }
-        
-        // Покупка тарифа
-        function buyTariff(minutes) {
-            if (typeof Telegram !== 'undefined') {
-                Telegram.WebApp.sendData(JSON.stringify({
-                    action: 'buy_tariff',
-                    minutes: minutes
-                }));
-            } else {
-                alert('Выбран тариф на ' + minutes + ' минут');
-            }
         }
     </script>
 </body>
