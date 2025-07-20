@@ -13,89 +13,173 @@ body {
   color: #fff;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100vh;
 }
-.container {
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
+.header {
   text-align: center;
-}
-.container h1 {
+  padding: 16px;
   font-size: 18px;
-  margin-bottom: 20px;
+  font-weight: 600;
 }
-.tariff {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  padding: 12px;
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+}
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
   margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
-.tariff-info {
-  text-align: left;
-}
-.tariff-info h3 {
+.card h3 {
   font-size: 16px;
   margin-bottom: 4px;
 }
-.tariff-info p {
+.card p {
   font-size: 14px;
   color: #ccc;
+  margin-bottom: 8px;
 }
-.tariff button {
+.card button {
   background: #2a9d8f;
   color: white;
   border: none;
-  padding: 8px 14px;
+  padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
   transition: background 0.2s ease;
 }
-.tariff button:hover {
+.card button:hover {
   background: #21867a;
+}
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  padding: 8px 0;
+}
+.bottom-nav button {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  flex: 1;
+}
+.bottom-nav button.active {
+  color: #fff;
+}
+.bottom-nav img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+  filter: invert(1);
 }
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>Сдача WhatsApp</h1>
-  <p style="margin-bottom: 16px; font-size: 14px; color: #ccc;">Выберите, сколько времени вы готовы сдать свой WhatsApp, и получите оплату.</p>
-
-  <div class="tariff">
-    <div class="tariff-info">
-      <h3>10 минут</h3>
-      <p>Вы получите $0.10</p>
-    </div>
-    <button onclick="submitTariff(10, 0.10)">Сдать</button>
-  </div>
-  <div class="tariff">
-    <div class="tariff-info">
-      <h3>60 минут</h3>
-      <p>Вы получите $1.00</p>
-    </div>
-    <button onclick="submitTariff(60, 1.00)">Сдать</button>
-  </div>
-  <div class="tariff">
-    <div class="tariff-info">
-      <h3>120 минут</h3>
-      <p>Вы получите $1.50</p>
-    </div>
-    <button onclick="submitTariff(120, 1.50)">Сдать</button>
-  </div>
+<div class="header">Сдача WhatsApp</div>
+<div id="content" class="content"></div>
+<div class="bottom-nav">
+  <button id="balanceBtn" class="active" onclick="showBalance()">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/wallet--v1.png" alt="Баланс">
+    Баланс
+  </button>
+  <button id="priceBtn" onclick="showPrices()">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/price-tag-euro.png" alt="Прайс">
+    Прайс
+  </button>
+  <button id="statsBtn" onclick="showStats()">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/combo-chart--v1.png" alt="Статистика">
+    Статистика
+  </button>
+  <button id="referralsBtn" onclick="showReferrals()">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/conference-call.png" alt="Рефералы">
+    Рефералы
+  </button>
+  <button id="premiumBtn" onclick="showPremium()">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/diamond.png" alt="Премиум">
+    Премиум
+  </button>
 </div>
-
 <script>
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
+
+function setActive(buttonId) {
+  document.querySelectorAll('.bottom-nav button').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(buttonId).classList.add('active');
+}
+
+function showBalance() {
+  setActive('balanceBtn');
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h3>Ваш текущий баланс</h3>
+      <p>$0.00 (обновляется после сдачи слота)</p>
+      <button onclick="Telegram.WebApp.sendData('update_balance')">Обновить</button>
+    </div>
+  `;
+}
+
+function showPrices() {
+  setActive('priceBtn');
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h3>Тарифы сдачи WhatsApp</h3>
+      <p>10 минут - $0.10</p>
+      <button onclick="submitTariff(10, 0.10)">Сдать 10 минут</button>
+    </div>
+    <div class="card">
+      <p>60 минут - $1.00</p>
+      <button onclick="submitTariff(60, 1.00)">Сдать 60 минут</button>
+    </div>
+    <div class="card">
+      <p>120 минут - $1.50</p>
+      <button onclick="submitTariff(120, 1.50)">Сдать 120 минут</button>
+    </div>
+  `;
+}
+
+function showStats() {
+  setActive('statsBtn');
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h3>Статистика</h3>
+      <p>Вы сдали: 0 минут</p>
+      <p>Заработано: $0.00</p>
+    </div>
+  `;
+}
+
+function showReferrals() {
+  setActive('referralsBtn');
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h3>Реферальная система</h3>
+      <p>Приглашайте друзей и получайте бонусы за сдачу их WhatsApp.</p>
+      <button onclick="Telegram.WebApp.sendData('get_referral_link')">Получить ссылку</button>
+    </div>
+  `;
+}
+
+function showPremium() {
+  setActive('premiumBtn');
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h3>Премиум</h3>
+      <p>Премиум пользователи получают +10% к выплатам и приоритет.</p>
+      <button onclick="Telegram.WebApp.sendData('get_premium')">Узнать подробнее</button>
+    </div>
+  `;
+}
 
 function submitTariff(minutes, payment) {
   const data = {
@@ -105,6 +189,204 @@ function submitTariff(minutes, payment) {
   };
   Telegram.WebApp.sendData(JSON.stringify(data));
 }
+
+showBalance();
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Сдача WhatsApp</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #121212;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.header {
+  text-align: center;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+}
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.card h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.card p {
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 8px;
+}
+.card button {
+  background: #2a9d8f;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+.card button:hover {
+  background: #21867a;
+}
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  padding: 8px 0;
+}
+.bottom-nav button {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  flex: 1;
+}
+.bottom-nav button.active {
+  color: #fff;
+}
+.bottom-nav img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+  filter: invert(1);
+}
+</style>
+</head>
+<body>
+<div class="header">Сдача WhatsApp</div>
+<div id="content" class="content"></div>
+<div class="bottom-nav">
+  <button id="balanceBtn" class="active" onclick="showBalance()">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/wallet--v1.png" alt="Баланс">
+    Баланс
+  </button>
+  <button id="priceBtn" onclick="showPrices()">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/price-tag-euro.png" alt="Прайс">
+    Прайс
+  </button>
+  <button id="statsBtn" onclick="showStats()">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/combo-chart--v1.png" alt="Статистика">
+    Статистика
+  </button>
+  <button id="referralsBtn" onclick="showReferrals()">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/conference-call.png" alt="Рефералы">
+    Рефералы
+  </button>
+  <button id="premiumBtn" onclick="showPremium()">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/diamond.png" alt="Премиум">
+    Премиум
+  </button>
+</div>
+<script>
+Telegram.WebApp.ready();
+Telegram.WebApp.expand();
+
+function setActive(buttonId) {
+  document.querySelectorAll('.bottom-nav button').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(buttonId).classList.add('active');
+}
+
+function showBalance() {
+  setActive('balanceBtn');
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h3>Ваш текущий баланс</h3>
+      <p>$0.00 (обновляется после сдачи слота)</p>
+      <button onclick="Telegram.WebApp.sendData('update_balance')">Обновить</button>
+    </div>
+  `;
+}
+
+function showPrices() {
+  setActive('priceBtn');
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h3>Тарифы сдачи WhatsApp</h3>
+      <p>10 минут - $0.10</p>
+      <button onclick="submitTariff(10, 0.10)">Сдать 10 минут</button>
+    </div>
+    <div class="card">
+      <p>60 минут - $1.00</p>
+      <button onclick="submitTariff(60, 1.00)">Сдать 60 минут</button>
+    </div>
+    <div class="card">
+      <p>120 минут - $1.50</p>
+      <button onclick="submitTariff(120, 1.50)">Сдать 120 минут</button>
+    </div>
+  `;
+}
+
+function showStats() {
+  setActive('statsBtn');
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h3>Статистика</h3>
+      <p>Вы сдали: 0 минут</p>
+      <p>Заработано: $0.00</p>
+    </div>
+  `;
+}
+
+function showReferrals() {
+  setActive('referralsBtn');
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h3>Реферальная система</h3>
+      <p>Приглашайте друзей и получайте бонусы за сдачу их WhatsApp.</p>
+      <button onclick="Telegram.WebApp.sendData('get_referral_link')">Получить ссылку</button>
+    </div>
+  `;
+}
+
+function showPremium() {
+  setActive('premiumBtn');
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h3>Премиум</h3>
+      <p>Премиум пользователи получают +10% к выплатам и приоритет.</p>
+      <button onclick="Telegram.WebApp.sendData('get_premium')">Узнать подробнее</button>
+    </div>
+  `;
+}
+
+function submitTariff(minutes, payment) {
+  const data = {
+    action: 'submit_whatsapp_time',
+    minutes: minutes,
+    payment: payment
+  };
+  Telegram.WebApp.sendData(JSON.stringify(data));
+}
+
+showBalance();
 </script>
 </body>
 </html>
