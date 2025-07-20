@@ -7,13 +7,14 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f5f5f5;
-            --card-color: #ffffff;
-            --text-primary: #333333;
-            --text-secondary: #666666;
-            --accent-color: #3a7bd5;
-            --divider-color: #e0e0e0;
-            --highlight-color: #f8f9fa;
+            --bg-color: #121212;
+            --card-color: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --accent-color: #bb86fc; /* Фиолетовый акцент */
+            --divider-color: #2d2d2d;
+            --blur-bg: rgba(30, 30, 30, 0.85);
+            --balance-highlight: rgba(187, 134, 252, 0.15);
         }
         
         body {
@@ -22,7 +23,7 @@
             color: var(--text-primary);
             margin: 0;
             padding: 0;
-            line-height: 1.5;
+            height: 100vh;
         }
         
         .app-container {
@@ -36,22 +37,28 @@
             font-size: 22px;
             font-weight: 500;
             margin-bottom: 24px;
-            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .header .icon {
+            margin-right: 12px;
+            color: var(--accent-color);
         }
         
         .card {
             background-color: var(--card-color);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 20px;
             margin-bottom: 16px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
         
         .section-title {
             font-size: 18px;
             font-weight: 500;
             margin-bottom: 8px;
-            color: var(--text-primary);
         }
         
         .section-subtitle {
@@ -60,25 +67,89 @@
             margin-bottom: 16px;
         }
         
+        .balance-container {
+            background-color: var(--balance-highlight);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            border: 1px solid var(--accent-color);
+        }
+        
         .balance-amount {
             font-size: 24px;
             font-weight: 500;
-            margin: 16px 0;
-            color: var(--text-primary);
+            color: var(--accent-color);
+            text-align: center;
+        }
+        
+        .tariff-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--divider-color);
+        }
+        
+        .tariff-item:last-child {
+            border-bottom: none;
+        }
+        
+        .tariff-name {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tariff-name .icon {
+            margin-right: 10px;
+            font-size: 20px;
+            color: var(--accent-color);
+        }
+        
+        .tariff-price {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .btn {
+            background-color: var(--accent-color);
+            color: #000000;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .btn .icon {
+            margin-right: 8px;
         }
         
         .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             margin: 16px 0;
         }
         
-        .stat-item {
+        .stat-card {
+            background-color: var(--bg-color);
+            border-radius: 12px;
+            padding: 16px;
             text-align: center;
-            padding: 12px;
-            background-color: var(--highlight-color);
-            border-radius: 8px;
+            border: 1px solid var(--divider-color);
         }
         
         .stat-value {
@@ -92,42 +163,11 @@
             color: var(--text-secondary);
         }
         
-        .checkbox {
-            display: flex;
-            align-items: center;
-            margin: 16px 0;
-        }
-        
-        .checkbox input {
-            margin-right: 10px;
-        }
-        
-        .btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 16px;
-            font-weight: 500;
-            width: 100%;
-            margin-top: 16px;
-            cursor: pointer;
-            text-align: center;
-            display: block;
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-        }
-        
         .update-time {
             font-size: 13px;
             color: var(--text-secondary);
             text-align: center;
-            margin-top: 16px;
+            margin-top: 20px;
         }
         
         .nav-menu {
@@ -135,11 +175,12 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: var(--card-color);
+            background-color: var(--blur-bg);
             display: flex;
             justify-content: space-around;
             padding: 12px 0;
             border-top: 1px solid var(--divider-color);
+            backdrop-filter: blur(20px);
             z-index: 100;
         }
         
@@ -150,11 +191,14 @@
             font-size: 12px;
             color: var(--text-secondary);
             cursor: pointer;
-            padding: 4px 8px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.2s;
         }
         
         .nav-item.active {
             color: var(--accent-color);
+            background-color: rgba(187, 134, 252, 0.15);
         }
         
         .nav-item .icon {
@@ -166,6 +210,17 @@
             display: none;
         }
         
+        .checkbox {
+            display: flex;
+            align-items: center;
+            margin: 16px 0;
+        }
+        
+        .checkbox input {
+            margin-right: 12px;
+            accent-color: var(--accent-color);
+        }
+        
         .feature-list {
             margin: 16px 0;
         }
@@ -173,11 +228,11 @@
         .feature-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
         
         .feature-item .icon {
-            margin-right: 10px;
+            margin-right: 12px;
             color: var(--accent-color);
         }
         
@@ -195,27 +250,14 @@
             color: var(--text-secondary);
         }
         
-        .price-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin: 16px 0;
-        }
-        
-        .price-item {
-            text-align: center;
-            padding: 12px;
-            background-color: var(--highlight-color);
-            border-radius: 8px;
-        }
-        
         .referral-link {
-            background-color: var(--highlight-color);
-            padding: 12px;
-            border-radius: 8px;
+            background-color: var(--bg-color);
+            padding: 14px;
+            border-radius: 12px;
             margin: 16px 0;
             word-break: break-all;
             font-size: 14px;
+            border: 1px solid var(--divider-color);
         }
     </style>
 </head>
@@ -223,14 +265,19 @@
     <div class="app-container">
         <!-- Баланс -->
         <div id="balance-view">
-            <div class="header">GhostArend</div>
+            <div class="header">
+                <span class="material-icons icon">account_balance_wallet</span>
+                GhostArend
+            </div>
             
             <div class="card">
                 <div class="section-title">Мой баланс</div>
                 <div class="section-subtitle">Управление средствами</div>
                 
-                <div class="section-title">Общий баланс к выплате</div>
-                <div class="balance-amount">$0.00</div>
+                <div class="balance-container">
+                    <div class="section-title">Общий баланс к выплате</div>
+                    <div class="balance-amount">$0.00</div>
+                </div>
                 
                 <div class="checkbox">
                     <input type="checkbox" id="autoUpdate">
@@ -238,23 +285,71 @@
                 </div>
                 
                 <div class="stats-grid">
-                    <div class="stat-item">
+                    <div class="stat-card">
                         <div class="stat-value">1</div>
                         <div class="stat-label">В очереди</div>
                     </div>
-                    <div class="stat-item">
+                    <div class="stat-card">
                         <div class="stat-value">0</div>
                         <div class="stat-label">В холде</div>
                     </div>
                 </div>
                 
-                <button class="btn" onclick="updateBalance()">Обновить баланс</button>
+                <button class="btn" onclick="updateBalance()">
+                    <span class="material-icons icon">refresh</span>
+                    Обновить баланс
+                </button>
+            </div>
+        </div>
+        
+        <!-- Прайс -->
+        <div id="price-view" class="hidden">
+            <div class="header">
+                <span class="material-icons icon">sell</span>
+                GhostArend
+            </div>
+            
+            <div class="card">
+                <div class="section-title">Выбор тарифа</div>
+                <div class="section-subtitle">Настройка планов работы</div>
+                
+                <div class="tariff-item">
+                    <div class="tariff-name">
+                        <span class="material-icons icon">timer_10</span>
+                        10 минут
+                    </div>
+                    <div class="tariff-price">$4.00</div>
+                </div>
+                
+                <div class="tariff-item">
+                    <div class="tariff-name">
+                        <span class="material-icons icon">timer</span>
+                        60 минут
+                    </div>
+                    <div class="tariff-price">$9.00</div>
+                </div>
+                
+                <div class="tariff-item">
+                    <div class="tariff-name">
+                        <span class="material-icons icon">av_timer</span>
+                        120 минут
+                    </div>
+                    <div class="tariff-price">$15.00</div>
+                </div>
+                
+                <button class="btn" onclick="buyTariff()">
+                    <span class="material-icons icon">shopping_cart</span>
+                    Купить тариф
+                </button>
             </div>
         </div>
         
         <!-- Статистика -->
         <div id="stats-view" class="hidden">
-            <div class="header">GhostArend</div>
+            <div class="header">
+                <span class="material-icons icon">analytics</span>
+                GhostArend
+            </div>
             
             <div class="card">
                 <div class="section-title">Статистика</div>
@@ -263,37 +358,43 @@
                 <div class="section-title">tiered - $8.00</div>
                 
                 <div class="stats-grid">
-                    <div class="stat-item">
+                    <div class="stat-card">
                         <div class="stat-value">0</div>
                         <div class="stat-label">В холде</div>
                     </div>
-                    <div class="stat-item">
+                    <div class="stat-card">
                         <div class="stat-value">0</div>
                         <div class="stat-label">Отстояло</div>
                     </div>
-                    <div class="stat-item">
+                    <div class="stat-card">
                         <div class="stat-value">0</div>
                         <div class="stat-label">Слетело</div>
                     </div>
-                    <div class="stat-item">
+                    <div class="stat-card">
                         <div class="stat-value">$0</div>
                         <div class="stat-label">К выплате</div>
                     </div>
                 </div>
                 
-                <div class="stat-item" style="grid-column: span 2;">
+                <div class="stat-card" style="grid-column: span 2;">
                     <div class="stat-value">100</div>
                     <div class="stat-label">Рейтинг</div>
                 </div>
                 
-                <button class="btn" onclick="updateStats()">Обновить статистику</button>
+                <button class="btn" onclick="updateStats()">
+                    <span class="material-icons icon">update</span>
+                    Обновить статистику
+                </button>
                 <div class="update-time">Последнее обновление: 15:29:09</div>
             </div>
         </div>
         
         <!-- Рефералы -->
         <div id="refs-view" class="hidden">
-            <div class="header">GhostArend</div>
+            <div class="header">
+                <span class="material-icons icon">group</span>
+                GhostArend
+            </div>
             
             <div class="card">
                 <div class="section-title">Реферальная программа</div>
@@ -319,35 +420,43 @@
                 
                 <div class="section-title">Награды по тарифам</div>
                 
-                <div class="price-grid">
-                    <div class="price-item">
-                        <div class="stat-value">10 мин</div>
-                        <div class="stat-label">$0.40</div>
+                <div class="feature-item">
+                    <span class="material-icons icon">timer_10</span>
+                    <div class="feature-text">
+                        <div class="feature-title">10 мин - $0.40</div>
                     </div>
-                    <div class="price-item">
-                        <div class="stat-value">60 мин</div>
-                        <div class="stat-label">$1.00</div>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="material-icons icon">timer</span>
+                    <div class="feature-text">
+                        <div class="feature-title">60 мин - $1.00</div>
                     </div>
-                    <div class="price-item" style="grid-column: span 2;">
-                        <div class="stat-value">120 мин</div>
-                        <div class="stat-label">$1.20</div>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="material-icons icon">av_timer</span>
+                    <div class="feature-text">
+                        <div class="feature-title">120 мин - $1.20</div>
                     </div>
                 </div>
                 
                 <div class="section-title">Ваша реферальная ссылка</div>
                 <div class="referral-link">https://t.me/GhostArendBot?...</div>
                 
-                <button class="btn" onclick="copyReferralLink()">Копировать</button>
-                
-                <div class="section-title">Управление рефералами</div>
-                <button class="btn btn-outline" style="margin-bottom: 8px;">Мои рефералы</button>
-                <button class="btn btn-outline">Вывести</button>
+                <button class="btn" onclick="copyReferralLink()">
+                    <span class="material-icons icon">content_copy</span>
+                    Копировать
+                </button>
             </div>
         </div>
         
         <!-- Премиум -->
         <div id="premium-view" class="hidden">
-            <div class="header">GhostArend</div>
+            <div class="header">
+                <span class="material-icons icon">workspace_premium</span>
+                GhostArend
+            </div>
             
             <div class="card">
                 <div class="section-title">Премиум подписка</div>
@@ -357,43 +466,44 @@
                 
                 <div class="section-title">Возможности подписки</div>
                 
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <span class="material-icons icon">trending_up</span>
-                        <div class="feature-text">
-                            <div class="feature-title">Повышенный прайс</div>
-                            <div class="feature-desc">+$1 к каждому тарифу</div>
-                        </div>
+                <div class="feature-item">
+                    <span class="material-icons icon">trending_up</span>
+                    <div class="feature-text">
+                        <div class="feature-title">Повышенный прайс</div>
+                        <div class="feature-desc">+$1 к каждому тарифу</div>
                     </div>
-                    
-                    <div class="feature-item">
-                        <span class="material-icons icon">shield</span>
-                        <div class="feature-text">
-                            <div class="feature-title">Защита от перебития</div>
-                            <div class="feature-desc">Вас не смогут перебить из-за рейтинга</div>
-                        </div>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="material-icons icon">shield</span>
+                    <div class="feature-text">
+                        <div class="feature-title">Защита от перебития</div>
+                        <div class="feature-desc">Вас не смогут перебить из-за рейтинга</div>
                     </div>
-                    
-                    <div class="feature-item">
-                        <span class="material-icons icon">bolt</span>
-                        <div class="feature-text">
-                            <div class="feature-title">Ежедневный буст</div>
-                            <div class="feature-desc">Раз в день активируйте буст на час</div>
-                        </div>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="material-icons icon">bolt</span>
+                    <div class="feature-text">
+                        <div class="feature-title">Ежедневный буст</div>
+                        <div class="feature-desc">Раз в день активируйте буст на час</div>
                     </div>
-                    
-                    <div class="feature-item">
-                        <span class="material-icons icon">priority_high</span>
-                        <div class="feature-text">
-                            <div class="feature-title">Приоритет в очереди</div>
-                            <div class="feature-desc">Все ваши номера первые в очереди</div>
-                        </div>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="material-icons icon">priority_high</span>
+                    <div class="feature-text">
+                        <div class="feature-title">Приоритет в очереди</div>
+                        <div class="feature-desc">Все ваши номера первые в очереди</div>
                     </div>
                 </div>
                 
                 <div class="section-title">$4 за 1 день</div>
                 
-                <button class="btn">Оплатить подписку</button>
+                <button class="btn">
+                    <span class="material-icons icon">payment</span>
+                    Оплатить подписку
+                </button>
             </div>
         </div>
     </div>
@@ -427,11 +537,13 @@
         if (typeof Telegram !== 'undefined') {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
+            Telegram.WebApp.setBackgroundColor('#121212');
         }
         
         // Показ нужного раздела
         function showView(view) {
             document.getElementById('balance-view').classList.add('hidden');
+            document.getElementById('price-view').classList.add('hidden');
             document.getElementById('stats-view').classList.add('hidden');
             document.getElementById('refs-view').classList.add('hidden');
             document.getElementById('premium-view').classList.add('hidden');
@@ -471,6 +583,15 @@
             navigator.clipboard.writeText(link).then(() => {
                 alert('Ссылка скопирована: ' + link);
             });
+        }
+        
+        // Покупка тарифа
+        function buyTariff() {
+            if (typeof Telegram !== 'undefined') {
+                Telegram.WebApp.sendData(JSON.stringify({action: 'buy_tariff'}));
+            } else {
+                alert('Тариф выбран!');
+            }
         }
     </script>
 </body>
