@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Управление балансом и тарифами</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .buttons {
+      margin-bottom: 20px;
+    }
+    button {
+      cursor: pointer;
+      background: #2a95f9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 16px;
+      margin: 0 10px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #2678d2;
+    }
+    #content {
+      max-width: 480px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    .tariff {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+    .tariff:last-child {
+      border-bottom: none;
+    }
+    .tariff img {
+      width: 64px;
+      height: 64px;
+      margin-right: 20px;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+    .tariff-details {
+      flex-grow: 1;
+    }
+    .tariff-details h3 {
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+    .tariff-details p {
+      margin: 0 0 8px;
+      color: #555;
+      font-weight: 500;
+    }
+    .tariff button {
+      background: #4caf50;
+      padding: 8px 14px;
+      font-size: 14px;
+      margin: 0;
+    }
+    .tariff button:hover {
+      background: #3b8a3a;
+    }
+    .balance-section p {
+      font-weight: 600;
+      font-size: 18px;
+      margin-top: 15px;
+    }
+    .balance-section input[type="checkbox"] {
+      transform: scale(1.3);
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    .update-btn {
+      display: block;
+      margin: 20px auto 0;
+      background: #ff9800;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+    .update-btn:hover {
+      background: #e07b00;
+    }
+  </style>
+</head>
+<body>
+  <h1>🕹 Управление балансом и тарифами</h1>
+
+  <div class="buttons">
+    <button onclick="showBalance()">💰 Баланс</button>
+    <button onclick="showTariffs()">💎 Тарифы</button>
+  </div>
+
+  <div id="content"></div>
+
+  <script>
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
+
+    function showBalance() {
+      document.getElementById('content').innerHTML = `
+        <div class="balance-section">
+          <h2>💰 Управление баллами</h2>
+
+          <div class="tariff">
+            <img src="https://img.icons8.com/ios-filled/100/000000/clock--v1.png" alt="10 минут" />
+            <div class="tariff-details">
+              <h3>⏳ 10 минут</h3>
+              <p>$0.00</p>
+            </div>
+          </div>
+
+          <div class="tariff">
+            <img src="https://img.icons8.com/ios-filled/100/000000/clock--v1.png" alt="60 минут" />
+            <div class="tariff-details">
+              <h3>⏳ 60 минут</h3>
+              <p>$0.00</p>
+            </div>
+          </div>
+
+          <div class="tariff">
+            <img src="https://img.icons8.com/ios-filled/100/000000/clock--v1.png" alt="120 минут" />
+            <div class="tariff-details">
+              <h3>⏳ 120 минут</h3>
+              <p>$0.00</p>
+            </div>
+          </div>
+
+          <p><label><input type="checkbox" /> Общий баланс: $0.00</label></p>
+          <button class="update-btn" onclick="Telegram.WebApp.sendData('update_balance')">Обновить</button>
+        </div>
+      `;
+    }
+
+    function showTariffs() {
+      document.getElementById('content').innerHTML = `
+        <h2>💎 Выбор тарифа</h2>
+
+        <div class="tariff">
+          <img src="https://img.icons8.com/ios-filled/100/000000/clock--v1.png" alt="10 минут" />
+          <div class="tariff-details">
+            <h3>⏳ 10 минут</h3>
+            <p>$0.10</p>
+          </div>
+          <button onclick="buyTariff(10)">Купить</button>
+        </div>
+
+        <div class="tariff">
+          <img src="https://img.icons8.com/ios-filled/100/000000/clock--v1.png" alt="60 минут" />
+          <div class="tariff-details">
+            <h3>⏳ 60 минут</h3>
+            <p>$10.00</p>
+          </div>
+          <button onclick="buyTariff(60)">Купить</button>
+        </div>
+
+        <div class="tariff">
+          <img src="https://img.icons8.com/ios-filled/100/000000/clock--v1.png" alt="120 минут" />
+          <div class="tariff-details">
+            <h3>⏳ 120 минут</h3>
+            <p>$12.00</p>
+          </div>
+          <button onclick="buyTariff(120)">Купить</button>
+        </div>
+      `;
+    }
+
+    function buyTariff(minutes) {
+      Telegram.WebApp.sendData(JSON.stringify({
+        action: 'buy_tariff',
+        minutes: minutes
+      }));
+    }
+
+    // При загрузке показываем баланс
+    showBalance();
+  </script>
+</body>
+</html>
